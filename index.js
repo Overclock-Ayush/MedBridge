@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
@@ -15,7 +16,10 @@ app.use('/images', express.static('images'));
 app.set('view engine', 'ejs')
 
 //framework of mongodb
-mongoose.connect("mongodb+srv://admin:test1234@cluster0.uvertd2.mongodb.net/medicineDB", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch(err => console.log("❌ MongoDB connection error:", err));
+
 
 const foodSchema = new mongoose.Schema({
   name: String,
